@@ -9,7 +9,7 @@
 
 [English](https://github.com/go-admin-team/go-admin/blob/master/README.md) | 简体中文
 
-基于Gin + Vue + Element UI OR Arco Design OR Ant Design前后端分离的打卡考勤项目后台管理系统
+基于Gin + Vue + Element UI 前后端分离的打卡考勤项目后台管理系统
 
 [在线文档](https://www.go-admin.pro)
 
@@ -19,13 +19,7 @@
 
 ## 🎬 在线体验
 
-Element UI vue体验：[https://vue2.go-admin.dev](https://vue2.go-admin.dev/#/login)
-> ⚠️⚠️⚠️ 账号 / 密码： admin / 123456
-
-Arco Design vue3 demo：[https://vue3.go-admin.dev](https://vue3.go-admin.dev/#/login)
-> ⚠️⚠️⚠️ 账号 / 密码： admin / 123456
-
-antd体验：[https://antd.go-admin.pro](https://antd.go-admin.pro/)
+后台管理页面：[https://vue2.go-admin.dev](https://vue2.go-admin.dev/#/login)
 > ⚠️⚠️⚠️ 账号 / 密码： admin / 123456
 
 ## ✨ 特性
