@@ -15,7 +15,6 @@
 
 [前端项目](https://github.com/go-admin-team/go-admin-ui)
 
-[视频教程](https://space.bilibili.com/565616721/channel/detail?cid=125737)
 
 ## 🎬 在线体验
 
@@ -73,31 +72,7 @@
 
 同时配套了系列教程包含视频和文档，如何从下载完成到熟练使用，强烈建议大家先看完这些教程再来实践本项目！！！
 
-### 轻松实现go-admin写出第一个应用 - 文档教程
 
-[步骤一 - 基础内容介绍](https://doc.zhangwj.com/guide/intro/tutorial01.html)
-
-[步骤二 - 实际应用 - 编写增删改查](https://doc.zhangwj.com/guide/intro/tutorial02.html)
-
-### 手把手教你从入门到放弃 - 视频教程
-
-[如何启动go-admin](https://www.bilibili.com/video/BV1z5411x7JG)
-
-[使用生成工具轻松实现业务](https://www.bilibili.com/video/BV1Dg4y1i79D)
-
-[v1.1.0版本代码生成工具-释放双手](https://www.bilibili.com/video/BV1N54y1i71P) [进阶]
-
-[多命令启动方式讲解以及IDE配置](https://www.bilibili.com/video/BV1Fg4y1q7ph)
-
-[go-admin菜单的配置说明](https://www.bilibili.com/video/BV1Wp4y1D715) [必看]
-
-[如何配置菜单信息以及接口信息](https://www.bilibili.com/video/BV1zv411B7nG) [必看]
-
-[go-admin权限配置使用说明](https://www.bilibili.com/video/BV1rt4y197d3) [必看]
-
-[go-admin数据权限使用说明](https://www.bilibili.com/video/BV1LK4y1s71e) [必看]
-
-**如有问题请先看上述使用文档和文章，若不能满足，欢迎 issue 和 pr ，视频教程和文档持续更新中**
 
 ## 📦 本地开发
 
