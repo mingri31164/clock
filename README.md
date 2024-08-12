@@ -1,4 +1,4 @@
-# go-clock
+# clock-main
 
   <img align="right" width="320" src="http://116.205.189.126:9000/clock-bucket/f1a2ee1f-d041-4dfa-8225-609ddc41d8b3.jpg">
 
@@ -13,7 +13,7 @@
 
 ## 🎬 在线体验
 
-后台管理页面：[https://vue2.clock-go.dev](http://116.205.189.126:8090/)
+后台管理页面：[https://vue2.clock-main.dev](http://116.205.189.126:8090/)
 > ⚠️⚠️⚠️ 账号 / 密码： admin / 123456
 
 ## ✨ 特性
@@ -65,7 +65,6 @@
 
 你需要在本地安装 [go] [gin] [node](http://nodejs.org/) 和 [git](https://git-scm.com/) 
 
-同时配套了系列教程包含视频和文档，如何从下载完成到熟练使用，强烈建议大家先看完这些教程再来实践本项目！！！
 
 
 
@@ -140,7 +139,6 @@ D:\Code\go-admin>go build
 cgo: exec gcc: exec: "gcc": executable file not found in %PATH%
 ```
 
-[解决cgo问题进入](https://doc.go-admin.dev/zh-CN/guide/faq#cgo-%E7%9A%84%E9%97%AE%E9%A2%98)
 
 :::
 
