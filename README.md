@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/e3969678-fb15-4031-866b-f939f4daad0e)# clock-main
+# clock-main
 
   <img align="right" width="320" src="http://116.205.189.126:9000/clock-bucket/f1a2ee1f-d041-4dfa-8225-609ddc41d8b3.jpg">
 
