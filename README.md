@@ -1,13 +1,8 @@
-# go-admin
+# go-clock
 
   <img align="right" width="320" src="http://116.205.189.126:9000/clock-bucket/f1a2ee1f-d041-4dfa-8225-609ddc41d8b3.jpg">
 
 
-[![Build Status](https://github.com/wenjianzhang/go-admin/workflows/build/badge.svg)](https://github.com/go-admin-team/go-admin)
-[![Release](https://img.shields.io/github/release/go-admin-team/go-admin.svg?style=flat-square)](https://github.com/go-admin-team/go-admin/releases)
-[![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/go-admin-team/go-admin)
-
-[English](https://github.com/go-admin-team/go-admin/blob/master/README.md) | 简体中文
 
 基于Gin + Vue + Element UI 前后端分离的打卡考勤项目后台管理系统
 
