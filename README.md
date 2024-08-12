@@ -149,6 +149,12 @@ npm install
 # 建议使用镜像安装并忽略eslint版本冲突问题
 npm install --registry=https://registry.npmmirror.com --legacy-peer-deps
 
+#更改后端api链接
+# 文件路径：
+clock-main/.env.development（开发环境）
+clock-main/.env.production（生产环境）
+clock-main/.env.staging（测试环境）
+
 # 启动服务
 npm run dev
 
