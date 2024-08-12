@@ -9,7 +9,7 @@
 
 [English](https://github.com/go-admin-team/go-admin/blob/master/README.md) | 简体中文
 
-基于Gin + Vue + Element UI OR Arco Design OR Ant Design的前后端分离权限管理系统,系统初始化极度简单，只需要配置文件中，修改数据库连接，系统支持多指令操作，迁移指令可以让初始化数据库信息变得更简单，服务指令可以很简单的启动api服务
+基于Gin + Vue + Element UI OR Arco Design OR Ant Design前后端分离的打卡考勤项目后台管理系统
 
 [在线文档](https://www.go-admin.pro)
 
