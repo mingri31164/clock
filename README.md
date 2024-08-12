@@ -248,7 +248,7 @@ npm install --registry=https://registry.npmmirror.com
 npm run dev
 ```
 
-## 💎 贡献者
+## 💎 开发人员
 
 
 <span style="margin: 0 5px;" ><a href="https://github.com/wenjianzhang" ><img src="https://images.weserv.nl/?url=avatars.githubusercontent.com/u/3890175?v=4&h=60&w=60&fit=cover&mask=circle&maxage=7d" /></a></span>
