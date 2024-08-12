@@ -82,7 +82,7 @@ npm版本: 10.2.4
 #### 服务端启动说明
 
 ```bash
-# 进入 go-admin 后端项目
+# 进入 clock-main 后端项目
 cd ./clock-main
 
 # 更新整理依赖
@@ -92,8 +92,7 @@ go mod tidy
 go build
 
 # 修改配置 
-# 文件路径  go-admin/config/settings.yml
-vi ./config/settings.yml
+# 文件路径  clock-main/config/settings.yml
 
 # 1. 配置文件中修改数据库信息 
 # 注意: settings.database 下对应的配置数据
@@ -125,7 +124,7 @@ $ go run main.go server -c config\settings.yml
 
 ```
 
-#### sys_api 表的数据如何添加
+#### sys_api 表的数据如何添加（非必须）
 
 在项目启动时，使用`-a true` 系统会自动添加缺少的接口数据
 ```bash
