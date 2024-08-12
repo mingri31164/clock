@@ -108,19 +108,19 @@ go build
 ``` bash
 # 首次配置需要初始化数据库资源信息
 # macOS or linux 下使用
-$ go run main.go migrate -c config/settings.yml
+go run main.go migrate -c config/settings.yml
 
 # ⚠️注意:windows 下使用
-$ go run main.go migrate -c config\settings.yml
+go run main.go migrate -c config\settings.yml
 
 
 # 启动项目，也可以用IDE进行调试
 # macOS or linux 下使用
-$ go run main.go server -c config/settings.yml
+go run main.go server -c config/settings.yml
 
 
 # ⚠️注意:windows 下使用
-$ go run main.go server -c config\settings.yml
+go run main.go server -c config\settings.yml
 
 ```
 
