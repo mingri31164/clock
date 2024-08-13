@@ -76,9 +76,7 @@ npm版本: 10.2.4
 ### 目录结构
 ``` bash
 ├── Dockerfile
-├── LICENSE.md 
 ├── Makefile 
-├── README.en.md 
 ├── README.md 
 ├── _config.yml 
 ├── app # 应用文件夹
