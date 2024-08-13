@@ -73,7 +73,40 @@ node版本: v18.19.1
 
 npm版本: 10.2.4
 
-
+### 目录结构
+``` bash
+├── Dockerfile
+├── LICENSE.md 
+├── Makefile 
+├── README.en.md 
+├── README.md 
+├── _config.yml 
+├── app # 应用文件夹
+│   ├── admin # admin应用
+│   │   ├── apis # api 
+│   │   ├── models # 模型 
+│   │   ├── router # 路由 
+│   │   └── service # 业务逻辑 
+│   └── jobs #自动化作业
+│       ├── apis # api 
+│       ├── models # 模型 
+│       ├── router # 路由 
+│       └──  service # 业务逻辑
+├── cmd # 命令 
+├── common #公共类 
+├── config # 系统配置 
+├── docs # 文档 
+├── go.mod
+├── go.sum 
+├── logger # 日志包 
+├── main.go 
+├── package-lock.json
+├── static # 静态文件 
+├── temp # 临时文件 
+├── template # 模版文件 
+├── test # 测试 
+└── tools # 工具
+```
 
 ### 启动说明
 
