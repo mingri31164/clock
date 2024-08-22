@@ -8,7 +8,6 @@ import (
 	"go-admin/app/admin/models"
 	"go-admin/app/admin/service/dto"
 	"go-admin/app/admin/utils"
-	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 
 	"go-admin/common/actions"
@@ -94,18 +93,16 @@ func (e *SysUser) Register(c *dto.Register) error {
 	redisdb := utils.InitRedis()
 
 	//使用bcrypt库来生成一个加盐哈希密码
-	hasedPassword, err := bcrypt.GenerateFromPassword([]byte(c.Password), bcrypt.DefaultCost)
-	if err != nil {
-		error := errors.New("密码加密错误！")
-		return error
-	}
+	//hasedPassword, err := bcrypt.GenerateFromPassword([]byte(c.Password), bcrypt.DefaultCost)
+	//if err != nil {
+	//	error := errors.New("密码加密错误！")
+	//	return error
+	//}
 	//校验密码（登录）
 	//if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
 	//	common.Error(ctx, "密码错误", nil)
 	//	return
 	//}
-
-	c.Password = string(hasedPassword)
 
 	result, err := redisdb.Get(c.Email).Result()
 	if err != nil {
@@ -116,6 +113,7 @@ func (e *SysUser) Register(c *dto.Register) error {
 	if result == c.Emailcode {
 		var data models.SysUser
 		var i int64
+
 		err = e.Orm.Model(&data).Where("username = ?", c.Username).Count(&i).Error
 		if err != nil {
 			e.Log.Errorf("db error: %s", err)
@@ -134,7 +132,7 @@ func (e *SysUser) Register(c *dto.Register) error {
 		}
 	}
 	if result != c.Emailcode {
-		err := errors.New("用户名已存在！")
+		err := errors.New("验证码错误！")
 		return err
 	}
 	return nil
@@ -243,10 +241,19 @@ func (e *SysUser) Remove(c *dto.SysUserById, p *actions.DataPermission) error {
 	var err error
 	var data models.SysUser
 
+	//@todo 确定软删除还是硬删除
+	//@软删除
+	//db := e.Orm.Model(&data).
+	//	Scopes(
+	//		actions.Permission(data.TableName(), p),
+	//	).Delete(&data, c.GetId())
+
+	//@硬删除
 	db := e.Orm.Model(&data).
 		Scopes(
 			actions.Permission(data.TableName(), p),
-		).Delete(&data, c.GetId())
+		).Unscoped().Where("user_id IN (?)", c.GetId()).Delete(&data)
+
 	if err = db.Error; err != nil {
 		e.Log.Errorf("Error found in  RemoveSysUser : %s", err)
 		return err
@@ -305,6 +312,13 @@ func (e *SysUser) UpdatePwd(id int, oldPassword, newPassword string, p *actions.
 	return nil
 }
 
+/**
+ * @根据token获取用户信息
+ * @Param
+ * @return
+ * @Date 2024/8/22 下午5:40
+ **/
+
 func (e *SysUser) GetProfile(c *dto.SysUserById, user *models.SysUser, roles *[]models.SysRole, posts *[]models.SysPost) error {
 	err := e.Orm.Preload("Dept").First(user, c.GetId()).Error
 	if err != nil {
@@ -320,4 +334,43 @@ func (e *SysUser) GetProfile(c *dto.SysUserById, user *models.SysUser, roles *[]
 	}
 
 	return nil
+}
+
+/**
+ * @无需权限检查的更新用户信息
+ * @Param
+ * @return
+ * @Date 2024/8/20 下午2:43
+ **/
+
+func (e *SysUser) UpdateUser(c *models.SysUser) error {
+	var err error
+	var data models.SysUser
+	err = e.Orm.Model(&data).Where("user_id = ?", c.UserId).Updates(c).Error
+	if err != nil {
+		e.Log.Errorf("db error: %s", err)
+		return err
+	}
+	return nil
+}
+
+/**
+ * @根据用户id获取用户信息
+ * @Param
+ * @return
+ * @Date 2024/8/22 下午5:41
+ **/
+
+func (e *SysUser) GetByUserId(userid string) (*models.SysUser, error) {
+	var data models.SysUser
+
+	err := e.Orm.Model(&data).Where("user_id = ?", userid).Find(&data).Error
+	if err != nil {
+		e.Log.Errorf("db error: %s", err)
+		// 如果出现错误,返回 nil 和错误对象
+		return nil, err
+	}
+
+	// 返回查询到的 Todos 对象和 nil 错误
+	return &data, nil
 }

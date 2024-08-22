@@ -1,8 +1,6 @@
 package main
 
 import (
-	"go-admin/app/admin/common"
-	"go-admin/app/admin/utils"
 	"go-admin/cmd"
 )
 
@@ -19,14 +17,13 @@ import (
 // @in header
 // @name Authorization
 func main() {
-	db := utils.InitDB()
-	//获取底层数据库连接
-	sqlDB, err := db.DB()
-	if err != nil {
-		panic("failed to connect database,err: " + err.Error())
-	}
-	defer sqlDB.Close()
-	common.StartScheduledDeletion(db)
+	//db := utils.InitDB()
+	////获取底层数据库连接
+	//sqlDB, err := db.DB()
+	//if err != nil {
+	//	panic("failed to connect database,err: " + err.Error())
+	//}
+	//defer sqlDB.Close()
 
 	cmd.Execute()
 }

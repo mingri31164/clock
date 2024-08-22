@@ -21,7 +21,7 @@ func GenerateRandomCode(length int) string {
 	return string(b)
 }
 
-// 定义全局变量
+// @todo 最终配置写入setting.dev.yml
 var (
 	host     = "smtp.qq.com"
 	port     = 587

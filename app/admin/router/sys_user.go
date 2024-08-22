@@ -4,8 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 	jwt "github.com/go-admin-team/go-admin-core/sdk/pkg/jwtauth"
 	"go-admin/app/admin/apis"
-	"go-admin/app/admin/common"
-	"go-admin/app/admin/utils"
 	"go-admin/common/actions"
 	"go-admin/common/middleware"
 )
@@ -46,13 +44,8 @@ func registerNoSysUserRouter(v1 *gin.RouterGroup) {
 	api := apis.SysUser{}
 	user := v1.Group("/user")
 	{
-		user.POST("/getcode", utils.SendCode)
 		user.POST("/register", api.Register)
-		user.POST("/login", apis.Login)
-
-		user.Use(common.AuthMiddleware())
-		user.POST("/start", apis.Start)
-		user.GET("/end", apis.End)
-
+		user.POST("/updata", api.UpdateUser)
+		user.GET("/getById", api.GetByUserId)
 	}
 }

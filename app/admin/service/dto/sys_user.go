@@ -128,18 +128,22 @@ func (s *SysUserInsertReq) GetId() interface{} {
 }
 
 type SysUserUpdateReq struct {
-	UserId   int    `json:"userId" comment:"用户ID"` // 用户ID
-	Username string `json:"username" comment:"用户名" vd:"len($)>0"`
-	NickName string `json:"nickName" comment:"昵称" `
-	Phone    string `json:"phone" comment:"手机号"`
-	RoleId   int    `json:"roleId" comment:"角色ID"`
-	Avatar   string `json:"avatar" comment:"头像"`
-	Sex      string `json:"sex" comment:"性别"`
-	Email    string `json:"email" comment:"邮箱" vd:"len($)>0,email"`
-	DeptId   int    `json:"deptId" comment:"部门" vd:"$>0"`
-	PostId   int    `json:"postId" comment:"岗位"`
-	Remark   string `json:"remark" comment:"备注"`
-	Status   string `json:"status" comment:"状态" default:"1"`
+	UserId     int    `json:"userId" comment:"用户ID"` // 用户ID
+	Username   string `json:"username" comment:"用户名" vd:"len($)>0"`
+	NickName   string `json:"nickName" comment:"昵称" `
+	Phone      string `json:"phone" comment:"手机号"`
+	RoleId     int    `json:"roleId" comment:"角色ID"`
+	Avatar     string `json:"avatar" comment:"头像"`
+	Sex        string `json:"sex" comment:"性别"`
+	Email      string `json:"email" comment:"邮箱" vd:"len($)>0,email"`
+	DeptId     int    `json:"deptId" comment:"部门" vd:"$>0"`
+	PostId     int    `json:"postId" comment:"岗位"`
+	Remark     string `json:"remark" comment:"备注"`
+	Status     string `json:"status" comment:"状态" default:"1"`
+	Sum        int    `json:"sum" gorm:"comment:总打卡天数"`
+	Continuous int    `json:"continuous" gorm:"comment:连续打卡天数"`
+	TimeTotal  int    `json:"timeTotal" gorm:"comment:总打卡时长"`
+
 	common.ControlBy
 }
 
@@ -158,6 +162,10 @@ func (s *SysUserUpdateReq) Generate(model *models.SysUser) {
 	model.PostId = s.PostId
 	model.Remark = s.Remark
 	model.Status = s.Status
+	model.Sum = s.Sum
+	model.Continuous = s.Continuous
+	model.TimeTotal = s.TimeTotal
+
 }
 
 func (s *SysUserUpdateReq) GetId() interface{} {
@@ -195,10 +203,11 @@ type Register struct {
 	Email     string `gorm:"not null;varchar(255);not null"`
 	Username  string `gorm:"type:varchar(20);not null"`
 	Password  string `gorm:"type:varchar(200);not null"`
+	Avatar    string `json:"avatar" comment:"头像"`
 	DeptId    int    `gorm:"type:in"`
 	RoleId    int    `json:"roleId" gorm:"size:20;comment:角色ID"`
 	Status    string `json:"status" gorm:"size:4"`
-	Emailcode string `gorm:"type:varchar(6);not null"`
+	Emailcode string `json:"emailcode" gorm:"type:varchar(6);not null"`
 
 	common.ControlBy
 }
@@ -209,6 +218,7 @@ func (s *Register) Generate(model *models.SysUser) {
 	}
 	model.Username = s.Username
 	model.Password = s.Password
+	model.Avatar = "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif"
 	model.RoleId = s.RoleId
 	model.Email = s.Email
 	model.DeptId = s.DeptId

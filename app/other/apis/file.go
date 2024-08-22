@@ -18,11 +18,13 @@ import (
 	"go-admin/common/file_store"
 )
 
+// @todo 最终在setting.dev.yml中配置
 var (
 	bucketName      = "clock-bucket"
 	endpoint        = "116.205.189.126:9000"
 	accessKeyID     = "KWZbfWQyLhVTVV4BrGZj"
 	secretAccessKey = "4vNBVT2M1nwqQkGBvmbeDPWlfV1nbbauKqjxFbwM"
+	useSSL          = false
 )
 
 type FileResponse struct {
@@ -81,7 +83,6 @@ func (e File) UploadFile(c *gin.Context) {
 		e.OK(fileResponse, "上传成功")
 		return
 	}
-
 }
 
 //func (e File) baseImg(c *gin.Context, fileResponse FileResponse, urlPerfix string) FileResponse {
@@ -218,8 +219,6 @@ func (e File) baseImg(c *gin.Context, fileResponse FileResponse, urlPrefix strin
 	fileName := guid + ".jpg"
 	typeStr := strings.Replace(strings.Replace(file2list[0], "data:", "", -1), ";base64", "", -1)
 
-	useSSL := false
-
 	minioClient, err := minio.New(endpoint, &minio.Options{
 		Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
 		Secure: useSSL,
@@ -269,8 +268,6 @@ func (e File) singleFile(c *gin.Context, fileResponse FileResponse, urlPrefix st
 	guid := uuid.New().String()
 	fileName := guid + utils.GetExt(file.Filename)
 
-	useSSL := false
-
 	minioClient, err := minio.New(endpoint, &minio.Options{
 		Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
 		Secure: useSSL,
@@ -312,10 +309,6 @@ func (e File) multipleFile(c *gin.Context, urlPrefix string) []FileResponse {
 	files := c.Request.MultipartForm.File["file"]
 	source, _ := c.GetPostForm("source")
 	var multipartFile []FileResponse
-
-	// Initialize MinIO client
-
-	useSSL := false
 
 	minioClient, err := minio.New(endpoint, &minio.Options{
 		Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
