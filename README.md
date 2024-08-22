@@ -1,5 +1,5 @@
 # clock-main
- <img align="right" width="210" height="165" src="bucket/c6b1b441d9d9cdcfe33fea306b5ba5d6.jpg">
+ <img align="right" width="210" height="165" src="http://116.205.189.126:9000/clock-bucket/c6b1b441d9d9cdcfe33fea306b5ba5d6.jpg">
 
 
 
