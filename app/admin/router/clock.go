@@ -49,6 +49,7 @@ func registerNoClockRouter(v1 *gin.RouterGroup) {
 		room.GET("/getByUserId", roomApi.GetByUserId)
 		room.GET("/getByUserAndDate", roomApi.GetByUserIdAndDate)
 		room.GET("/list", roomApi.ListRoom)
+		room.GET("/listFinishTodes", roomApi.ListFinishTodes)
 	}
 
 }

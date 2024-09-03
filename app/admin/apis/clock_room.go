@@ -87,7 +87,7 @@ func (e ClockRoom) UpdataCur(c *gin.Context) {
  **/
 
 func (e ClockRoom) GetByUserIdAndDate(c *gin.Context) {
-	userid := c.Query("userid")
+	userid := c.Query("userId")
 	date := c.Query("date")
 	s := service.ClockRoom{}
 
@@ -117,7 +117,7 @@ func (e ClockRoom) GetByUserIdAndDate(c *gin.Context) {
  **/
 
 func (e ClockRoom) GetByUserId(c *gin.Context) {
-	userid := c.Query("userid")
+	userid := c.Query("userId")
 	s := service.ClockRoom{}
 
 	err := e.MakeContext(c).
@@ -184,7 +184,7 @@ func (e *ClockRoom) DeleteRoom(c *gin.Context) {
 		e.Error(500, err, err.Error())
 		return
 	}
-	idsStr := c.Query("ids") // 或 c.PostForm("ids")
+	idsStr := c.Query("roomIds") // 或 c.PostForm("ids")
 	if idsStr == "" {
 		e.Error(400, nil, "请传递待删除的 ids")
 		return
@@ -212,7 +212,7 @@ func (e *ClockRoom) GetById(c *gin.Context) {
 		MakeOrm().
 		MakeService(&s.Service).
 		Errors
-	roomid := c.Query("roomid")
+	roomid := c.Query("roomId")
 	data, err := s.GetById(roomid)
 	if err != nil {
 		e.Logger.Error(err)
@@ -220,4 +220,26 @@ func (e *ClockRoom) GetById(c *gin.Context) {
 		return
 	}
 	e.OK(data, "查询打卡记录成功！")
+}
+
+func (e *ClockRoom) ListFinishTodes(c *gin.Context) {
+	s := service.ClockRoom{}
+	err := e.MakeContext(c).
+		MakeOrm().
+		MakeService(&s.Service).
+		Errors
+	if err != nil {
+		e.Logger.Error(err)
+		e.Error(500, err, err.Error())
+		return
+	}
+	roomid := c.Query("roomId") // 或 c.PostForm("ids")
+
+	data, err := s.ListFinishTodes(roomid)
+	if err != nil {
+		e.Logger.Error(err)
+		e.Error(400, err, err.Error())
+		return
+	}
+	e.OK(data, "查看当前已完成待办成功！")
 }

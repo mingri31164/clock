@@ -35,3 +35,10 @@ func (e System) GenerateCaptchaHandler(c *gin.Context) {
 		"msg":  "success",
 	})
 }
+
+/**
+ * @获取验证码图片并返回验证码id和验证码图片base64编码
+ * @Param
+ * @return
+ * @Date 2024/8/26 上午11:59
+ **/

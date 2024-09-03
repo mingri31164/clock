@@ -547,6 +547,9 @@ func (e SysUser) GetInfo(c *gin.Context) {
 	//mp["deptName"] = sysUser.Dept.DeptName
 	mp["name"] = sysUser.NickName
 	mp["code"] = 200
+	mp["sum"] = sysUser.Sum
+	mp["continuous"] = sysUser.Continuous
+	mp["timeTotal"] = sysUser.TimeTotal
 	e.OK(mp, "")
 }
 
@@ -580,7 +583,7 @@ func (e SysUser) Register(c *gin.Context) {
 		e.Error(500, err, err.Error())
 		return
 	}
-	common.ResOK(c, "注册成功！")
+	common.ResOK(c, nil, "注册成功！")
 }
 
 /**
@@ -592,7 +595,7 @@ func (e SysUser) Register(c *gin.Context) {
 
 func (e SysUser) UpdateUser(c *gin.Context) {
 	s := service.SysUser{}
-	req := models.SysUser{}
+	req := dto.SysUserUpdateReq{}
 	err := e.MakeContext(c).
 		MakeOrm().
 		Bind(&req).
@@ -607,6 +610,7 @@ func (e SysUser) UpdateUser(c *gin.Context) {
 	err = s.UpdateUser(&req)
 	if err != nil {
 		e.Logger.Error(err)
+		e.Error(500, err, err.Error())
 		return
 	}
 	e.OK(req.GetId(), "更新成功")
@@ -620,7 +624,7 @@ func (e SysUser) UpdateUser(c *gin.Context) {
  **/
 
 func (e SysUser) GetByUserId(c *gin.Context) {
-	userid := c.Query("userid")
+	userid := c.Query("userId")
 	s := service.SysUser{}
 	err := e.MakeContext(c).
 		MakeOrm().
@@ -635,6 +639,7 @@ func (e SysUser) GetByUserId(c *gin.Context) {
 	data, err := s.GetByUserId(userid)
 	if err != nil {
 		e.Logger.Error(err)
+		e.Error(500, err, err.Error())
 		return
 	}
 	e.OK(data, "查看用户信息成功")

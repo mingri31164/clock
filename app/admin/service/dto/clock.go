@@ -18,7 +18,17 @@ import (
  **/
 
 type AddClock struct {
-	Id        int       `gorm:"primaryKey;autoIncrement"`
+	ClockId   int       `json:"clockId" gorm:"primaryKey;autoIncrement"`
+	UserID    int       `json:"userId" gorm:"not null;comment:用户id"`
+	TodoId    int       `json:"todoId" gorm:"not null;comment:打卡事项id"`
+	StartAt   time.Time `json:"startAt" gorm:"not null;comment:开始打卡时刻"`
+	EndAt     time.Time `json:"endAt" gorm:"comment:结束打卡时刻;default:NULL"`
+	Place     string    `json:"place" gorm:"comment:打卡地点"`
+	ClockTime int       `json:"clockTime" gorm:"comment:本次打卡时长"`
+}
+
+type EndClock struct {
+	ClockId   int       `json:"clockId" gorm:"primaryKey;autoIncrement"`
 	UserID    int       `json:"userId" gorm:"not null;comment:用户id"`
 	TodoId    int       `json:"todoId" gorm:"not null;comment:打卡事项id"`
 	StartAt   time.Time `json:"startAt" gorm:"not null;comment:开始打卡时刻"`

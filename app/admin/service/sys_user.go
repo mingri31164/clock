@@ -343,9 +343,10 @@ func (e *SysUser) GetProfile(c *dto.SysUserById, user *models.SysUser, roles *[]
  * @Date 2024/8/20 下午2:43
  **/
 
-func (e *SysUser) UpdateUser(c *models.SysUser) error {
+func (e *SysUser) UpdateUser(c *dto.SysUserUpdateReq) error {
 	var err error
 	var data models.SysUser
+	c.Generate(&data)
 	err = e.Orm.Model(&data).Where("user_id = ?", c.UserId).Updates(c).Error
 	if err != nil {
 		e.Log.Errorf("db error: %s", err)
@@ -361,16 +362,20 @@ func (e *SysUser) UpdateUser(c *models.SysUser) error {
  * @Date 2024/8/22 下午5:41
  **/
 
-func (e *SysUser) GetByUserId(userid string) (*models.SysUser, error) {
+func (e *SysUser) GetByUserId(userid string) (*dto.SysUserUpdateReq, error) {
 	var data models.SysUser
-
-	err := e.Orm.Model(&data).Where("user_id = ?", userid).Find(&data).Error
+	var req []*dto.SysUserUpdateReq
+	err := e.Orm.Model(&data).Where("user_id = ?", userid).Find(&req).Error
 	if err != nil {
 		e.Log.Errorf("db error: %s", err)
 		// 如果出现错误,返回 nil 和错误对象
 		return nil, err
 	}
 
+	if len(req) == 0 {
+		return nil, errors.New("用户不存在")
+	}
+
 	// 返回查询到的 Todos 对象和 nil 错误
-	return &data, nil
+	return req[0], nil
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"go-admin/app/task"
 	"go-admin/cmd"
 )
 
@@ -24,6 +25,10 @@ func main() {
 	//	panic("failed to connect database,err: " + err.Error())
 	//}
 	//defer sqlDB.Close()
+
+	go func() {
+		task.UpdataTodoStatus()
+	}()
 
 	cmd.Execute()
 }

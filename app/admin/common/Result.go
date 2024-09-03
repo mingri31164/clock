@@ -14,11 +14,11 @@ type ReJson struct {
 }
 
 // ResOK 请求成功的返回体，传入请求成功的数据和总数
-func ResOK(c *gin.Context, data any) {
+func ResOK(c *gin.Context, msg any, data any) {
 	//将参数赋值给你结构体
 	Json := ReJson{
 		Code: 200,
-		Msg:  "请求成功！",
+		Msg:  msg,
 		Data: data,
 	}
 	c.JSON(http.StatusOK, Json)
@@ -56,12 +56,12 @@ func Error(c *gin.Context) {
 }
 
 // ResFail 请求失败的返回体（网络不通），只需要传入请求失败的信息回来就行了
-func ResFail(c *gin.Context, msg any) {
+func ResFail(c *gin.Context, msg any, data any) {
 	//将参数赋值给你结构体
 	Json := ReJson{
-		Code: 404,
+		Code: 400,
 		Msg:  msg,
-		Data: "网络请求失败！",
+		Data: data,
 	}
 	c.JSON(http.StatusNotFound, Json)
 }

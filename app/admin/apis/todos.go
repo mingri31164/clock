@@ -1,12 +1,15 @@
 package apis
 
 import (
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-admin-team/go-admin-core/sdk/api"
+	"go-admin/app/admin/common"
 	"go-admin/app/admin/models"
 	"go-admin/app/admin/service"
 	"go-admin/app/admin/service/dto"
+	"go-admin/app/admin/utils"
 	"net/http"
 	"strconv"
 )
@@ -14,6 +17,9 @@ import (
 type Todos struct {
 	api.Api
 }
+
+// 初始化redis配置
+var redisdb = utils.InitRedis()
 
 /**
  * @根据用户id查询待办
@@ -23,9 +29,26 @@ type Todos struct {
  **/
 
 func (e Todos) ListById(c *gin.Context) {
-	userid := c.Query("userid")
+	userid := c.Query("userId")
+	var todolist []*models.Todos
+	//构造redis中的key：todos_userid
+	todokey := "todos_" + userid
+	//查询redis中是否存在该用户的待办数据
+	todoData, err := redisdb.Get(todokey).Result()
+	//如果存在，直接返回，无需查询数据库
+	if todoData != "" {
+		err = models.DecodeTodos([]byte(todoData), &todolist) //反序列化为[]*models.Todos
+		if err != nil {
+			e.Logger.Error(err)
+			e.Error(500, err, err.Error())
+			return
+		}
+		common.ResOK(c, "查询待办成功！", todolist)
+		return
+	}
+	//如果不存在，查询数据库，将查询结果存入redis
 	s := service.Todos{}
-	err := e.MakeContext(c).
+	err = e.MakeContext(c).
 		MakeOrm().
 		MakeService(&s.Service).
 		Errors
@@ -35,10 +58,19 @@ func (e Todos) ListById(c *gin.Context) {
 		e.Error(500, err, err.Error())
 		return
 	}
-	if len(data) == 0 {
-		e.Error(400, nil, "待办不存在！")
+	//将data转换为字符串存储到redis中
+	redisTodos, err := json.Marshal(data)
+	if err != nil {
+		e.Logger.Error(err)
+		e.Error(500, err, err.Error())
 		return
 	}
+	cmd := redisdb.Set(todokey, redisTodos, 0)
+	if err := cmd.Err(); err != nil {
+		common.ResErr(c, err.Error())
+		return
+	}
+
 	e.OK(data, "查询待办成功！")
 }
 
@@ -69,6 +101,9 @@ func (e Todos) AddTodo(c *gin.Context) {
 		e.Error(400, err, err.Error())
 		return
 	}
+	//清除redis缓存
+	key := "todos_" + strconv.Itoa(req.UserID)
+	redisdb.Del(key)
 	e.OK(nil, "创建成功")
 }
 
@@ -92,8 +127,8 @@ func (e *Todos) DeleteToods(c *gin.Context) {
 		e.Error(500, err, err.Error())
 		return
 	}
-	userid := c.Query("userid")
-	idsStr := c.Query("ids") // 或 c.PostForm("ids")
+	userid := c.Query("userId")
+	idsStr := c.Query("todoIds") // 或 c.PostForm("ids")
 	if idsStr == "" {
 		e.Error(400, nil, "请传递待删除的 ids")
 		return
@@ -105,6 +140,10 @@ func (e *Todos) DeleteToods(c *gin.Context) {
 		e.Error(400, err, err.Error())
 		return
 	}
+	//清除redis缓存
+	key := "todos_" + userid
+	redisdb.Del(key)
+
 	e.OK(nil, "待办删除成功！")
 }
 
@@ -127,7 +166,7 @@ func (e Todos) GetById(c *gin.Context) {
 		return
 	}
 
-	idStr := c.Query("todoid")
+	idStr := c.Query("todoId")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		// 处理错误，例如发送错误响应给客户端
@@ -171,5 +210,14 @@ func (e Todos) UpdataTood(c *gin.Context) {
 		e.Error(400, err, err.Error())
 		return
 	}
+	data, err := s.GetById(req.TodoId)
+	if err != nil {
+		e.Logger.Error(err)
+		e.Error(400, err, err.Error())
+		return
+	}
+	//清除redis缓存
+	key := "todos_" + strconv.Itoa(data.UserID)
+	redisdb.Del(key)
 	e.OK(nil, "修改成功！")
 }

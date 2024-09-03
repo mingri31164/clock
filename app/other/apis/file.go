@@ -20,10 +20,10 @@ import (
 
 // @todo 最终在setting.dev.yml中配置
 var (
-	bucketName      = "clock-bucket"
-	endpoint        = "116.205.189.126:9000"
-	accessKeyID     = "KWZbfWQyLhVTVV4BrGZj"
-	secretAccessKey = "4vNBVT2M1nwqQkGBvmbeDPWlfV1nbbauKqjxFbwM"
+	bucketName      = "test"
+	endpoint        = "139.9.51.109:9000"
+	accessKeyID     = "aBk08QbNKgMsDRBMU8sH"
+	secretAccessKey = "fNPtdV2gWAqDepwZEmCjatO43007ez6vMH9KKwMU"
 	useSSL          = false
 )
 

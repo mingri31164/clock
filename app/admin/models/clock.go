@@ -10,7 +10,7 @@ import (
 )
 
 type Clock struct {
-	Id        int       `gorm:"primaryKey;autoIncrement"`
+	ClockId   int       `json:"clockId" gorm:"primaryKey;autoIncrement"`
 	UserID    int       `json:"userId" gorm:"not null;comment:用户id"`
 	TodoId    int       `json:"todoId" gorm:"not null;comment:打卡事项id"`
 	StartAt   time.Time `json:"startAt" gorm:"not null;comment:开始打卡时刻"`

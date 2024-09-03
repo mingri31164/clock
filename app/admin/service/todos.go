@@ -72,6 +72,9 @@ func (e *Todos) ListById(userid string) ([]*models.Todos, error) {
 		e.Log.Errorf("db error: %s", err)
 		return nil, err
 	}
+	if len(data) == 0 {
+		return nil, errors.New("该用户暂无待办！")
+	}
 
 	return data, nil
 }
@@ -90,10 +93,7 @@ func (e *Todos) Delete(userid string, idStr string, r *ClockRoom) error {
 		return nil
 	}
 	curRoom, err := r.GetByUserIdAndDate(userid, curDay)
-	if err != nil {
-		e.Log.Errorf("db error: %s", err)
-		return err
-	}
+
 	if curRoom != nil {
 		if strings.Contains(idStr, strconv.Itoa(curRoom.Status)) {
 			err = errors.New("存在执行中的待办，请先完成该待办！")
@@ -112,7 +112,7 @@ func (e *Todos) Delete(userid string, idStr string, r *ClockRoom) error {
 		ids = append(ids, idInt)
 	}
 
-	result := e.Orm.Model(&data).Where("id IN (?)", ids).Delete(nil)
+	result := e.Orm.Model(&data).Where("todo_id IN (?)", ids).Delete(nil)
 	if result.Error != nil {
 		e.Log.Errorf("db error: %s", result.Error)
 		return result.Error
@@ -135,7 +135,7 @@ func (e *Todos) Delete(userid string, idStr string, r *ClockRoom) error {
 func (e *Todos) GetById(id int) (*models.Todos, error) {
 	var data []*models.Todos
 
-	err := e.Orm.Model(&data).Where("id = ?", id).Find(&data).Error
+	err := e.Orm.Model(&data).Where("todo_id = ?", id).Find(&data).Error
 	if err != nil {
 		e.Log.Errorf("db error: %s", err)
 		// 如果出现错误,返回 nil 和错误对象
@@ -159,7 +159,7 @@ func (e *Todos) GetById(id int) (*models.Todos, error) {
 func (e *Todos) UpdataTodo(c *models.Todos) error {
 	var err error
 	var data models.Todos
-	err = e.Orm.Model(&data).Where("id = ?", c.Id).Updates(c).Error
+	err = e.Orm.Model(&data).Where("todo_id = ?", c.TodoId).Updates(c).Error
 	if err != nil {
 		e.Log.Errorf("db error: %s", err)
 		return err

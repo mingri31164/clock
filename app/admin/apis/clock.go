@@ -11,9 +11,11 @@ import (
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-admin-team/go-admin-core/sdk/api"
 	_ "github.com/go-admin-team/go-admin-core/sdk/pkg/response"
+	"go-admin/app/admin/common"
 	"go-admin/app/admin/models"
 	"go-admin/app/admin/service"
 	"go-admin/app/admin/service/dto"
+	"strconv"
 	"time"
 )
 
@@ -50,13 +52,13 @@ func (e Clock) AddClock(c *gin.Context) {
 		e.Error(500, err, err.Error())
 		return
 	}
-	err = s.Insert(&req, &t, &clock, &u, &r)
+	curTodoId, err := s.Insert(&req, &t, &clock, &u, &r)
 	if err != nil {
 		e.Logger.Error(err)
-		e.Error(400, err, err.Error())
+		common.ResFail(c, err.Error(), curTodoId)
 		return
 	}
-	e.OK(nil, "打卡成功")
+	e.OK(curTodoId, "打卡成功")
 }
 
 /**
@@ -77,7 +79,7 @@ func (e *Clock) DeleteClock(c *gin.Context) {
 		e.Error(500, err, err.Error())
 		return
 	}
-	idsStr := c.Query("ids") // 或 c.PostForm("ids")
+	idsStr := c.Query("clockIds") // 或 c.PostForm("ids")
 	if idsStr == "" {
 		e.Error(400, nil, "请传递待删除的 ids")
 		return
@@ -100,7 +102,7 @@ func (e *Clock) DeleteClock(c *gin.Context) {
  **/
 
 func (e Clock) EndClock(c *gin.Context) {
-	clockid := c.Query("clockid")
+	todoIdStr := c.Query("todoId")
 	s := service.Clock{}
 	u := service.SysUser{}
 	t := service.Todos{}
@@ -117,8 +119,8 @@ func (e Clock) EndClock(c *gin.Context) {
 		e.Error(500, err, err.Error())
 		return
 	}
-
-	err = s.EndClock(clockid, &u, &t, &r)
+	todoId, err := strconv.Atoi(todoIdStr) // 转换为整数
+	err = s.EndClock(todoId, &u, &t, &r)
 	if err != nil {
 		e.Logger.Error(err)
 		e.Error(400, err, err.Error())
@@ -173,7 +175,7 @@ func (e *Clock) ListByUserId(c *gin.Context) {
 		MakeService(&s.Service).
 		Errors
 
-	userid := c.Query("userid")
+	userid := c.Query("userId")
 
 	data, err := s.ListByUserId(userid)
 	if err != nil {
@@ -197,8 +199,8 @@ func (e *Clock) GetById(c *gin.Context) {
 		MakeOrm().
 		MakeService(&s.Service).
 		Errors
-	userid := c.Query("clockid")
-	data, err := s.GetById(userid)
+	clockid := c.Query("clockId")
+	data, err := s.GetById(clockid)
 	if err != nil {
 		e.Logger.Error(err)
 		e.Error(400, err, err.Error())
