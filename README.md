@@ -1,5 +1,5 @@
 # clock-main
- <img align="right" width="210" height="165" src="http://116.205.189.126:9000/clock-bucket/c6b1b441d9d9cdcfe33fea306b5ba5d6.jpg">
+ <img align="right" width="210" height="165" src="http://139.9.51.109:9000/test/c6b1b441d9d9cdcfe33fea306b5ba5d6.jpg">
 
 
 
@@ -12,7 +12,7 @@
 
 ## 🎬 在线体验
 
-后台管理页面：[https://vue2.clock-main.dev](http://116.205.189.126:8090/)
+后台管理页面：[https://vue2.clock-main.dev](http://139.9.51.109:8090/)
 > ⚠️⚠️⚠️ 账号 / 密码： admin / 123456
 
 ## ✨ 特性
