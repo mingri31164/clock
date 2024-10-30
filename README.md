@@ -1,5 +1,4 @@
 # clock-main
- <img align="right" width="210" height="165" src="http://139.9.51.109:9000/test/c6b1b441d9d9cdcfe33fea306b5ba5d6.jpg">
 
 
 
